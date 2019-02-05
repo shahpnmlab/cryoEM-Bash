@@ -1,6 +1,6 @@
 # This script can be used to count the number of micrographs that went into the 3d refniment 
 #calculation as well as the number of particles per micrographs.
-#Credit for counting to the number of instances of the micropraphs goes to fedorqui (https://stackoverflow.com/users/1983854/fedorqui)
+#Credit for counting to the number of instances of the micropraphs goes to /u/fedorqui (https://stackoverflow.com/users/1983854/fedorqui)
 
 #!/bin/bash
 
