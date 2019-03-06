@@ -1,0 +1,3 @@
+#If you want to add a space in between two characters after ignoring a certain number of chars, use this simple one-liner
+#in this case I am adding a space after ignoring the first 60 characters in a table.
+sed 's/............................................................/& /g' filein >fileout
