@@ -1,0 +1,74 @@
+#! /bin/tcsh -fxv
+#
+    setenv CCP4_SCR .
+#
+    set TAG = "coin"
+#
+# ==============================================================
+#
+  set MYDATE = 181121
+#
+   set INMAP = postprocess_masked.mrc
+#
+# =================================================================
+#
+   set MYINGRID   = 450
+   set MYSPACING  = ` echo " 1.056 "`
+   set MYCELLDIM  = ` echo " 475.2 " `
+#
+#
+# 1.056 * 450 = 475.2
+#
+# ============
+#
+   set MYLIMIT = " -50 51 0 95 35 110 "
+   set BSOFT_ORIGIN = ` echo "50,0,35" `
+#  size = 102,96, 146
+#
+#
+  set MYCELL = ` echo " "${MYCELLDIM}" "${MYCELLDIM}" "${MYCELLDIM}" 90.  90.  90. " `
+  set MY_COMMA_CELL = ` echo " "${MYCELLDIM}","${MYCELLDIM}","${MYCELLDIM}",90.,90.,90. " `
+  set MYGRID = ` echo " "${MYINGRID}" "${MYINGRID}" "${MYINGRID}" " `
+#
+  set MY_NEW_COMMA_GRID = ` echo "50,0,35" `
+  set MY_NEW_LIMITS = ` echo " 0 101  0 97  0 147 " `
+  set MY_NEW_COMMA_CELL = ` echo "107.712,101.376,155.49,90.0,90.0,90.0" `
+#
+#
+  set MY_NEW_CELL = ` echo ${MY_NEW_COMMA_CELL} | sed -e "s/,/ /g" `
+  set MYSPGP = P1
+#
+#
+  @ HALF_INGRID = ${MYINGRID} / 2
+#
+ /bin/rm -f tmp00.map tmp01.map bhead01.log
+#
+#
+#  cp ${INMAP} tmp00.map
+#
+   bhead -verbose 7 -datatype f -origin ${HALF_INGRID},${HALF_INGRID},${HALF_INGRID} -spacegroup 1 -Sampling ${MYSPACING} ${INMAP} tmp01.map > bhead01.log
+#
+#
+ /bin/rm -f tmp02.map bimg02.log
+   bimg -verbose 7 -datatype f -minmax 0.,100. tmp01.map tmp02.map > bimg02.log
+#
+ /bin/rm -f tmp03.map bimg03.log
+   bhead -verbose 7 -datatype f -origin ${HALF_INGRID},${HALF_INGRID},${HALF_INGRID} -spacegroup 1 -unitcell ${MY_COMMA_CELL} tmp02.map tmp03.map> bhead03.log
+#
+ /bin/rm -f tmp04.map bint04.log
+    bint -verbose 7 -datatype f -rotate 1,0,0,0  tmp03.map tmp04.map> bint04.log
+#
+# goto bottom
+#
+# ==================================================================
+#  pick out the box we want from the big icos map
+#
+/bin/rm -f ${TAG}_${MYDATE}_boxmap.map mapmask_03.log
+#
+mapmask mapin tmp04.map mapout ${TAG}_${MYDATE}_boxmap.map <<eof > mapmask_03.log
+XYZLIM ${MYLIMIT}
+AXIS Z X Y
+EXTEND XTAL
+SYMMETRY 1
+END
+eof
