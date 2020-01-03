@@ -1,6 +1,12 @@
-#USE THIS SCRIPT TO REFORMAT THE RUN.OUT FILE FROM RELION IN A MORE READABLE FORMAT. THIS SCRIPT IS PARTICULARLY USEFUL WHEN MONITORING JOBS REMOTELY, ESPECIALLY WHEN USING PHONE OR A TABLET. RUN THE SCRIPT IN THE PARENT RELION DATA PROCESSING DIRECTORY.
-
 #!/bin/bash -f
+
+red=$'\e[1;31m'
+grn=$'\e[1;32m'
+yel=$'\e[1;33m'
+blu=$'\e[1;34m'
+mag=$'\e[1;35m'
+cyn=$'\e[1;36m'
+end=$'\e[0m'
 
 ls -ralth Refine3D/
 echo "Enter job number: "
@@ -28,4 +34,18 @@ $col7
 eof
 
 printf "\n****Last 5 lines of $path/run.out****\n"
+printf "\n"
+if grep -q "Refinement has converged" $path/run.out; then
+printf "Refinement ${red}HAS${end} converged!"
+printf "\n"
+printf "\n"
 tail -5 $path/run.out
+printf "\n"
+else
+printf "Refinement ${mag}HASN'T${end} converged..."
+printf "\n"
+printf "\n"
+tail -5 $path/run.out
+printf "\n"
+printf "\n"
+fi
