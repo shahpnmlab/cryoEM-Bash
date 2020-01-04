@@ -22,7 +22,7 @@ col5=`cat $path/run.out | grep "offset step" | cut -c 36- | cut -c-10 | sed -e s
 col6=`cat $path/run.out | grep "offset step" | sed -e s/.*=//g | sed -e s/pixels//g`
 col7=`cat $path/run.out | grep "local" | sed -e s/.*=//g`
 
-printf "\n_Iteration\n_Resolution(A)\n_ChangeAngle(deg)\n_EstimatedAngleAccuracy(pix)\n_OffsetRange(pix)\n_OffsetStep(pix)\n_LocalSearches\n\n"
+printf "\n_Iteration\n_Resolution(A)\n_ChangeAngle(deg)\n_EstimatedAngleAccuracy(deg)\n_OffsetRange(pix)\n_OffsetStep(pix)\n_LocalSearches\n\n"
 pr -c7 -t -e10 <<eof
 $col1
 $col2
