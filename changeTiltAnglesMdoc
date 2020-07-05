@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Get inp
+infile=$1
+
+# Preserve original mdoc incase things break horribly
+cp $infile ORIG_${infile}
+
+# Get angles and sort them in ascending order
+grep "TiltAngle = " $infile | sed 's/TiltAngle = //g' | sort -n > temp.txt
+
+# How many angles?
+iMax=`cat temp.txt | wc -l`
+
+# Occurence of TiltAngle string in MDOC
+jMax=`grep -n "TiltAngle = " ${infile} | tail -1 | sed 's/:.*//g'`
+
+# Iterate
+for ((i=1,j=12; i<=${iMax} && j<=${jMax};i+=1,j+=30));do
+        a=`head -$i temp.txt | tail -1`
+        sed -i "${j}s/TiltAngle = .*/TiltAngle = $a/g" $infile
+done
+
+# Clean Up
+rm temp.txt
