@@ -1,9 +1,8 @@
-# This jiffy will create a star file out of all the IMOD mod files containing particle coords.
-# run the script in the folder containing the mod files.
-
-#!/bin/bash
+!/bin/bash
 
 # set -x
+
+read -ep "Enter Apx value which is at the end of your mod file (Eg: _8.00Apx):  " warpTag
 
 if [ -f allStar.star ]; then
 rm allStar.star
@@ -25,3 +24,4 @@ sed -i '3i _rlnMicrographName #1' allStar.star
 sed -i '4i _rlnCoordinateX #2' allStar.star
 sed -i '5i _rlnCoordinateY #3' allStar.star
 sed -i '6i _rlnCoordinateZ #4' allStar.star
+sed -i "s/$warpTag//g" allStar.star
