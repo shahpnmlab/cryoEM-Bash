@@ -1,3 +1,6 @@
+# This jiffy will create a star file out of all the IMOD mod files containing particle coords.
+# run the script in the folder containing the mod files.
+
 #!/bin/bash
 
 # set -x
