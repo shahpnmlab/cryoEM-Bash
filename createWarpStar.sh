@@ -6,19 +6,22 @@
 # set -x
 
 read -ep "Enter Apx value which is at the end of your mod file (Eg: _8.00Apx):  " warpTag
+read -ep "Enter bin value of your tomogram: " bin
 
 if [ -f allStar.star ]; then
 rm allStar.star
 fi
 
-for i in `ls *.mod`;do
-bn=`basename $i .mod`
-model2point -InputFile ${i} -output ${bn}.txt
+for i in `ls *.mod`; do
+ bn=`basename $i .mod`
+ model2point -fl -InputFile ${i} -output ${bn}.txt
+ awk -v SF="$bin" '{print $1*SF"\t"$2*SF"\t"$3*SF}' ${bn}.txt > temp.txt && mv temp.txt ${bn}.txt
 
         while read line; do
         theseLines=`echo $line | sed "s/^/${bn} /g"`
         echo $theseLines >> allStar.star
         done < ${bn}.txt
+
 done
 
 sed -i '1i data_' allStar.star
