@@ -9,7 +9,7 @@ read -ep "Enter Apx value which is at the end of your mod file (Eg: _8.00Apx):  
 read -ep "Enter bin value of your tomogram: " bin
 
 if [ -f allStar.star ]; then
-rm allStar.star
+cp allStar.star allStar.star.bak
 fi
 
 for i in `ls *.mod`; do
