@@ -30,4 +30,9 @@ sed -i '3i _rlnMicrographName #1' allStar.star
 sed -i '4i _rlnCoordinateX #2' allStar.star
 sed -i '5i _rlnCoordinateY #3' allStar.star
 sed -i '6i _rlnCoordinateZ #4' allStar.star
+###Un-comment below lines if you have pre-aligned the particles
+#sed -i '7i _rlnAngleRot #5' allStar.star
+#sed -i '8i_rlnAngleTilt #6' allStar.star
+#sed -i '9i_rlnAnglePsi #7' allStar.star
+###
 sed -i "s/$warpTag//g" allStar.star
