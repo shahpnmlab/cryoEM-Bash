@@ -1,3 +1,5 @@
+#USE THIS SCRIPT TO REFORMAT THE RUN.OUT FILE FROM RELION IN A MORE READABLE FORMAT. THIS SCRIPT IS PARTICULARLY USEFUL WHEN MONITORING JOBS REMOTELY, ESPECIALLY WHEN USING PHONE OR A TABLET. RUN THE SCRIPT IN THE PARENT RELION DATA PROCESSING DIRECTORY.
+
 #!/bin/bash -f
 
 red=$'\e[1;31m'
@@ -14,6 +16,7 @@ read number
 path=" `pwd`/Refine3D/job"$number
 echo $path
 
+stats(){
 col1=`cat $path/run.out | grep "Iteration" | cut -c-35 | grep -Eo '[+-]?[0-9]+([.][0-9]+)?'`
 col2=`cat $path/run.out | grep "CurrentResolution" | cut -c-35 | grep -Eo '[+-]?[0-9]+([.][0-9]+)?'`
 col3=`cat $path/run.out | grep "Changes in angles" | cut -c 34- | cut -c-15 | sed -e s/deg.*//g`
@@ -22,7 +25,7 @@ col5=`cat $path/run.out | grep "offset step" | cut -c 36- | cut -c-10 | sed -e s
 col6=`cat $path/run.out | grep "offset step" | sed -e s/.*=//g | sed -e s/pixels//g`
 col7=`cat $path/run.out | grep "local" | sed -e s/.*=//g`
 
-printf "\n_Iteration\n_Resolution(A)\n_ChangeAngle(deg)\n_EstimatedAngleAccuracy(deg)\n_OffsetRange(pix)\n_OffsetStep(pix)\n_LocalSearches\n\n"
+printf "\n_Iteration\n_Resolution(A)\n_ChangeAngle(deg)\n_EstimatedAngleAccuracy(pix)\n_OffsetRange(pix)\n_OffsetStep(pix)\n_LocalSearches\n\n"
 pr -c7 -t -e10 <<eof
 $col1
 $col2
@@ -49,3 +52,18 @@ tail -5 $path/run.out
 printf "\n"
 printf "\n"
 fi
+printf "\n"
+}
+#stats
+
+while true; do
+stats
+    while true; do
+        read -p "Do you want to rerun the script (y/n)?"
+           case $REPLY in
+                [Yy]*) break   ;;
+                [Nn]*) break 2 ;;
+                *) echo "Eh? Whats'up Doc?" >&2
+           esac
+     done
+done
