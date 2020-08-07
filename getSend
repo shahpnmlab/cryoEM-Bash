@@ -1,0 +1,29 @@
+#!/bin/bash
+if [[ $1 = "-h" ]] || [[ -z "$1" ]]; then
+        printf "******** USAGE ********\n"
+        printf "*** E.g getSend get <path2fileonServer> <serverName:pin/bel> ***\n"
+        printf "*** E.g getSend send <path2fileonLocal> <serverName:pin/bel> ***\n"
+        printf "***********************\n"
+fi
+
+# Keywords get,send
+move=$1
+filepath=$2
+fromto=$3
+
+if [ $move == "get" ] && [ $fromto == <serverNickName> ]; then
+        echo "Downloading the file and saving in your ~/Downloads folder"
+        rsync -avuzh <user@server>:${filepath} ~/Downloads --progress
+fi
+
+if [ $move == "send" ] && [ $fromto == <serverName> ]; then
+        echo "Sending $filepath to ~/data/transfer on Pinot"
+        rsync -avuzh $filepath <user@server>:${filepath}  --progress
+fi
+
+# Move the file to currDir
+a=`ls -t ~/Downloads/ | head -n 1`
+mydate=`date +%Y%m%d`
+path="<path/to/Downloads/>"
+dest=`pwd`
+mv ${path}${a} ${dest}/${mydate}_${a}
