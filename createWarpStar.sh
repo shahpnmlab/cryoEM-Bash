@@ -10,6 +10,7 @@ read -ep "Enter bin value of your tomogram: " bin
 
 if [ -f allStar.star ]; then
 cp allStar.star allStar.star.bak
+rm allStar.star
 fi
 
 for i in `ls *.mod`; do
