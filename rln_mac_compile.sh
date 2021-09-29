@@ -24,8 +24,8 @@ cd relion
 git pull
 git checkout ver$VERSION
 
+mkdir -p build
 cd build
-rm -rvf ./*
 cmake -DCMAKE_INSTALL_PREFIX=${INSTALLDIR} ../
 make -j 8
 make install
